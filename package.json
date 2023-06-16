@@ -1,13 +1,13 @@
 {
   "name": "craftoklauncher",
   "version": "1.0.0",
-  "productName": "Craftok Launcher",
-  "description": "Modded Minecraft Launcher",
-  "author": "Daniel Scalzi (https://github.com/dscalzi/)",
+  "productName": "CraftokLauncher",
+  "description": "Launcher Craftok pour les events",
+  "author": "SiriHack (https://github.com/SiriHack/)",
   "license": "UNLICENSED",
-  "homepage": "https://github.com/dscalzi/HeliosLauncher",
+  "homepage": "https://github.com/SiriHackYT/Launcher",
   "bugs": {
-    "url": "https://github.com/dscalzi/HeliosLauncher/issues"
+    "url": "https://github.com/SiriHackYT/Launcher/issues"
   },
   "private": true,
   "main": "index.js",
@@ -44,6 +44,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dscalzi/HeliosLauncher.git"
+    "url": "git+https://github.com/SiriHackYT/Launcher.git"
   }
 }

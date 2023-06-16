@@ -1,5 +1,5 @@
 appId: 'craftoklauncher'
-productName: 'Craftok Launcher'
+productName: 'CraftokLauncher'
 artifactName: '${productName}-setup-${version}.${ext}'
 
 copyright: 'Copyright © 2021-2023 SiriGames'
