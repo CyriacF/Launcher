@@ -1,0 +1,51 @@
+appId: 'craftoklauncher'
+productName: 'Craftok Launcher'
+artifactName: '${productName}-setup-${version}.${ext}'
+
+copyright: 'Copyright © 2021-2023 SiriGames'
+
+asar: true
+compression: 'maximum'
+
+files:
+  - '!{dist,.gitignore,.vscode,docs,dev-app-update.yml,.nvmrc,.eslintrc.json}'
+
+extraResources:
+  - 'libraries'
+
+# Windows Configuration
+win: 
+  target: 
+    - target: 'nsis'
+      arch: 'x64'
+
+# Windows Installer Configuration
+nsis:
+  oneClick: false
+  perMachine: false
+  allowElevation: true
+  allowToChangeInstallationDirectory: true
+
+# macOS Configuration
+mac:
+  target:
+    - target: 'dmg'
+      arch:
+        - 'x64'
+        - 'arm64'
+  artifactName: '${productName}-setup-${version}-${arch}.${ext}'
+  category: 'public.app-category.games'
+
+# Linux Configuration
+linux: 
+  target: 'AppImage'
+  maintainer: 'SiriGames'
+  vendor: 'SiriGames'
+  synopsis: 'Minecraft launcher moddé'
+  description: 'Lanceur personnalisé qui permet aux utilisateurs de rejoindre des serveurs moddés. Tous les mods, configurations et mises à jour sont gérés automatiquement.'
+  category: 'Game'
+
+
+directories:
+  buildResources: 'build'
+  output: 'dist'
