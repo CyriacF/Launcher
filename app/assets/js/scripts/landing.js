@@ -102,7 +102,7 @@ function setLaunchEnabled(val){
 
 // Bind launch button
 document.getElementById('launch_button').addEventListener('click', async e => {
-    loggerLanding.info('Launching game..')
+    loggerLanding.info('Lancement du jeu..')
     try {
         const server = (await DistroAPI.getDistribution()).getServerById(ConfigManager.getSelectedServer())
         const jExe = ConfigManager.getJavaExecutable(ConfigManager.getSelectedServer())
@@ -145,7 +145,7 @@ document.getElementById('avatarOverlay').onclick = async e => {
 
 // Bind selected account
 function updateSelectedAccount(authUser){
-    let username = 'No Account Selected'
+    let username = 'Pas de compte séléctionné'
     if(authUser != null){
         if(authUser.displayName != null){
             username = authUser.displayName
@@ -172,7 +172,7 @@ function updateSelectedServer(serv){
     setLaunchEnabled(serv != null)
 }
 // Real text is set in uibinder.js on distributionIndexDone.
-server_selection_button.innerHTML = '\u2022 Loading..'
+server_selection_button.innerHTML = '\u2022 Chargement..'
 server_selection_button.onclick = async e => {
     e.target.blur()
     await toggleServerSelection(true)
@@ -180,7 +180,7 @@ server_selection_button.onclick = async e => {
 
 // Update Mojang Status Color
 const refreshMojangStatuses = async function(){
-    loggerLanding.info('Refreshing Mojang Statuses..')
+    loggerLanding.info('Actualiser les statuts de Mojang..')
 
     let status = 'grey'
     let tooltipEssentialHTML = ''
@@ -191,7 +191,7 @@ const refreshMojangStatuses = async function(){
     if(response.responseStatus === RestResponseStatus.SUCCESS) {
         statuses = response.data
     } else {
-        loggerLanding.warn('Unable to refresh Mojang service status.')
+        loggerLanding.warn("Impossible d'actualiser l'état du service Mojang.")
         statuses = MojangRestAPI.getDefaultStatuses()
     }
     
@@ -240,7 +240,7 @@ const refreshMojangStatuses = async function(){
 }
 
 const refreshServerStatus = async (fade = false) => {
-    loggerLanding.info('Refreshing Server Status')
+    loggerLanding.info("Actualisation de l'état du serveur")
     const serv = (await DistroAPI.getDistribution()).getServerById(ConfigManager.getSelectedServer())
 
     let pLabel = 'CRAFTOK'
@@ -254,7 +254,7 @@ const refreshServerStatus = async (fade = false) => {
         pVal = servStat.players.online + '/' + servStat.players.max
 
     } catch (err) {
-        loggerLanding.warn('Unable to refresh server status, assuming offline.')
+        loggerLanding.warn("Impossible d'actualiser l'état du serveur, supposé hors ligne.")
         loggerLanding.debug(err)
     }
     if(fade){
@@ -304,7 +304,7 @@ function showLaunchFailure(title, desc){
  */
 async function asyncSystemScan(effectiveJavaOptions, launchAfter = true){
 
-    setLaunchDetails('Checking system info..')
+    setLaunchDetails("Vérification de l'information sur le système...")
     toggleLaunchArea(true)
     setLaunchPercentage(0, 100)
 
@@ -317,31 +317,31 @@ async function asyncSystemScan(effectiveJavaOptions, launchAfter = true){
         // If the result is null, no valid Java installation was found.
         // Show this information to the user.
         setOverlayContent(
-            'No Compatible<br>Java Installation Found',
-            `In order to join WesterosCraft, you need a 64-bit installation of Java ${effectiveJavaOptions.suggestedMajor}. Would you like us to install a copy?`,
-            'Install Java',
-            'Install Manually'
-        )
+            'Aucune installation de Java compatible<br>trouvée',
+            `Pour rejoindre Craftok Event, vous avez besoin d'une installation 64 bits de Java ${effectiveJavaOptions.suggestedMajor}. Souhaitez-vous que nous installions une copie ?`,
+            'Installer Java',
+            'Installer manuellement'
+            )
         setOverlayHandler(() => {
-            setLaunchDetails('Preparing Java Download..')
+            setLaunchDetails('Préparer le téléchargement de Java..')
             toggleOverlay(false)
             
             try {
                 downloadJava(effectiveJavaOptions, launchAfter)
             } catch(err) {
-                loggerLanding.error('Unhandled error in Java Download', err)
-                showLaunchFailure('Error During Java Download', 'See console (CTRL + Shift + i) for more details.')
+                loggerLanding.error('Erreur non gérée pendant le téléchargement de Java', err)
+                showLaunchFailure('Erreur lors du téléchargement de Java', 'Voir la console (CTRL + Shift + i) pour plus de détails.')
             }
         })
         setDismissHandler(() => {
             $('#overlayContent').fadeOut(250, () => {
                 //$('#overlayDismiss').toggle(false)
                 setOverlayContent(
-                    'Java is Required<br>to Launch',
-                    `A valid x64 installation of Java ${effectiveJavaOptions.suggestedMajor} is required to launch.<br><br>Please refer to our <a href="https://github.com/dscalzi/HeliosLauncher/wiki/Java-Management#manually-installing-a-valid-version-of-java">Java Management Guide</a> for instructions on how to manually install Java.`,
-                    'I Understand',
-                    'Go Back'
-                )
+                    'Java est requis<br>pour le lancement',
+                    `Une installation valide en x64 de Java ${effectiveJavaOptions.suggestedMajor} est nécessaire pour le lancement.<br><br>Veuillez consulter notre <a href="https://github.com/dscalzi/HeliosLauncher/wiki/Java-Management#manually-installing-a-valid-version-of-java">Guide de gestion de Java</a> pour obtenir des instructions sur l'installation manuelle de Java.`,
+                    'Je comprends',
+                    'Retour'
+                    )
                 setOverlayHandler(() => {
                     toggleLaunchArea(false)
                     toggleOverlay(false)
@@ -385,7 +385,7 @@ async function downloadJava(effectiveJavaOptions, launchAfter = true) {
         effectiveJavaOptions.distribution)
 
     if(asset == null) {
-        throw new Error('Failed to find OpenJDK distribution.')
+        throw new Error('Échec de la recherche de la distribution OpenJDK.')
     }
 
     let received = 0
@@ -409,7 +409,7 @@ async function downloadJava(effectiveJavaOptions, launchAfter = true) {
     remote.getCurrentWindow().setProgressBar(2)
 
     // Wait for extration to complete.
-    const eLStr = 'Extracting Java'
+    const eLStr = 'Extraction de Java'
     let dotStr = ''
     setLaunchDetails(eLStr)
     const extractListener = setInterval(() => {
@@ -431,7 +431,7 @@ async function downloadJava(effectiveJavaOptions, launchAfter = true) {
     ConfigManager.save()
 
     clearInterval(extractListener)
-    setLaunchDetails('Java Installed!')
+    setLaunchDetails('Java installé !')
 
     // TODO Callback hell
     // Refactor the launch functions
@@ -456,7 +456,7 @@ async function dlAsync(login = true) {
 
     const loggerLaunchSuite = LoggerUtil.getLogger('LaunchSuite')
 
-    setLaunchDetails('Loading server information..')
+    setLaunchDetails('Chargement des informations sur le serveur...')
 
     let distro
 
@@ -464,8 +464,8 @@ async function dlAsync(login = true) {
         distro = await DistroAPI.refreshDistributionOrFallback()
         onDistroRefresh(distro)
     } catch(err) {
-        loggerLaunchSuite.error('Unable to refresh distribution index.', err)
-        showLaunchFailure('Fatal Error', 'Could not load a copy of the distribution index. See the console (CTRL + Shift + i) for more details.')
+        loggerLaunchSuite.error("Impossible de rafraîchir l'index de distribution.", err)
+        showLaunchFailure('Erreur fatale', 'Impossible de charger les paramètres depuis le serveur. Voir la console (CTRL + Shift + i) pour plus de détails.')
         return
     }
 
@@ -473,7 +473,7 @@ async function dlAsync(login = true) {
 
     if(login) {
         if(ConfigManager.getSelectedAccount() == null){
-            loggerLanding.error('You must be logged into an account.')
+            loggerLanding.error('Vous devez être connecté à un compte.')
             return
         }
     }
@@ -503,8 +503,8 @@ async function dlAsync(login = true) {
         }
     })
 
-    loggerLaunchSuite.info('Validating files.')
-    setLaunchDetails('Validating file integrity..')
+    loggerLaunchSuite.info('Validation des fichiers.')
+    setLaunchDetails("Validation de l'intégrité des fichiers..")
     let invalidFileCount = 0
     try {
         invalidFileCount = await fullRepairModule.verifyFiles(percent => {
@@ -519,8 +519,8 @@ async function dlAsync(login = true) {
     
 
     if(invalidFileCount > 0) {
-        loggerLaunchSuite.info('Downloading files.')
-        setLaunchDetails('Downloading files..')
+        loggerLaunchSuite.info('Téléchargement de fichiers.')
+        setLaunchDetails('Téléchargement de fichiers..')
         setLaunchPercentage(0)
         try {
             await fullRepairModule.download(percent => {
@@ -541,7 +541,7 @@ async function dlAsync(login = true) {
 
     fullRepairModule.destroyReceiver()
 
-    setLaunchDetails('Preparing to launch..')
+    setLaunchDetails('Préparation au lancement..')
 
     const mojangIndexProcessor = new MojangIndexProcessor(
         ConfigManager.getCommonDirectory(),
@@ -559,7 +559,7 @@ async function dlAsync(login = true) {
         const authUser = ConfigManager.getSelectedAccount()
         loggerLaunchSuite.info(`Sending selected account (${authUser.displayName}) to ProcessBuilder.`)
         let pb = new ProcessBuilder(serv, versionData, forgeData, authUser, remote.app.getVersion())
-        setLaunchDetails('Launching game..')
+        setLaunchDetails('Lancement du jeu..')
 
         // const SERVER_JOINED_REGEX = /\[.+\]: \[CHAT\] [a-zA-Z0-9_]{1,16} joined the game/
         const SERVER_JOINED_REGEX = new RegExp(`\\[.+\\]: \\[CHAT\\] ${authUser.displayName} joined the game`)
@@ -567,7 +567,7 @@ async function dlAsync(login = true) {
         const onLoadComplete = () => {
             toggleLaunchArea(false)
             if(hasRPC){
-                DiscordWrapper.updateDetails('Loading game..')
+                DiscordWrapper.updateDetails('Chargement du jeu..')
                 proc.stdout.on('data', gameStateChange)
             }
             proc.stdout.removeListener('data', tempListener)
@@ -594,9 +594,9 @@ async function dlAsync(login = true) {
         const gameStateChange = function(data){
             data = data.trim()
             if(SERVER_JOINED_REGEX.test(data)){
-                DiscordWrapper.updateDetails('Exploring the Realm!')
+                DiscordWrapper.updateDetails('Exploration de la galaxie !')
             } else if(GAME_JOINED_REGEX.test(data)){
-                DiscordWrapper.updateDetails('Sailing to Westeros!')
+                DiscordWrapper.updateDetails('Atterissage sur Craftok !')
             }
         }
 
